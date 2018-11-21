@@ -6,8 +6,8 @@
 		<!--<semantic:customHeaderContent></semantic:customHeaderContent>-->
 		<semantic:content>
 			<VBox>
-				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1}" title="{Firstname} {Lastname}" showMarkers="false"
-					markFlagged="true" markFavorite="false" backgroundDesign="Translucent"></ObjectHeader>
+				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1} - {Jobtitle2}" title="{Firstname} {Lastname}"
+					showMarkers="false" markFlagged="true" markFavorite="false" backgroundDesign="Translucent" icon="sap-icon://employee"></ObjectHeader>
 			</VBox>
 			<VBox>
 				<l:BlockLayout id="BlockLayout">
