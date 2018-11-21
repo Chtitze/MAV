@@ -1,0 +1,36 @@
+{
+    "application": {
+        "id": "",
+        "title": "dxc.hr.employee.mngmt.Z_DXC_EMPLOYEE_MANAGEMENT",
+        "description": "Mitarbeitermanagement by DXC",
+        "type": "SAP_UI5_Component",
+        "componentUrl": "/",
+        "appUrl": "#Z_DXC_EMPLOYEE_MANAGEMENT-Display",
+        "navigationComponentName": "dxc.hr.employee.mngmt",
+        "intentSemanticObject": "Z_DXC_EMPLOYEE_MANAGEMENT",
+        "intentAction": "Display",
+        "html5ApplicationName": "zdxcemployeemanagement",
+        "HCPParentApplicationName": ""
+    },
+    "assignment": {
+        "groups": [
+            "422e145b-1f30-4a62-9739-f666a3ea5bbe"
+        ],
+        "contentPackages": [
+            "097ef8a9-4ab3-4741-9979-ef95775babdc"
+        ],
+        "categories": []
+    },
+    "tile": {
+        "type": "DynamicTile",
+        "title": "DXC",
+        "subtitle": "MaV",
+        "searchKeywords": "DXC,MaV",
+        "displayIconUrl": "sap-icon://employee-lookup",
+        "displayInfoText": "",
+        "size": "1x1",
+        "serviceURL": "/sap/fiori/zdxcemployeemanagement/sap/opu/odata/sap/Z_DXC_EMPLOYEE_MGMT_SRV/Z_C_EMPLOYEE/$count",
+        "refreshInterval": 10,
+        "displayNumberUnit": "Z_C_EMPLOYEEType"
+    }
+}

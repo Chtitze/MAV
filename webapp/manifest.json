@@ -1,0 +1,142 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "dxc.hr.employee.mngmt",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponentForManifest",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"Z_DXC_EMPLOYEE_MGMT_SRV": {
+				"uri": "/sap/opu/odata/sap/Z_DXC_EMPLOYEE_MGMT_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "dxc.hr.employee.mngmt.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "dxc.hr.employee.mngmt.i18n.i18n"
+				}
+			},
+			"": {
+				"uri": "/sap/opu/odata/sap/Z_DXC_EMPLOYEE_MGMT_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "Z_DXC_EMPLOYEE_MGMT_SRV",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "dxc.hr.employee.mngmt.view",
+				"controlId": "app",
+				"controlAggregation": "pages"
+			},
+			"routes": [
+				{
+					"name": "PlanningCalendar",
+					"pattern": "",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"PlanningCalendar"
+					]
+				},
+				{
+					"name": "EmployeeOverview",
+					"pattern": "EmployeeOverview/{EmployeeID}",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"EmployeeOverview"
+					]
+				}
+			],
+			"targets": {
+				"PlanningCalendar": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "PlanningCalendar",
+					"viewLevel": 1,
+					"viewId": "PlanningCalendar"
+				},
+				"EmployeeOverview": {
+					"viewType": "XML",
+					"transition": "fade",
+					"clearAggregation": true,
+					"viewName": "EmployeeOverview",
+					"viewId": "EmployeeOverview",
+					"viewLevel": 2
+				}
+			}
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.1.0"
+	}
+}

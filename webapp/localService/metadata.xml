@@ -1,0 +1,99 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="./IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/></edmx:Reference>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="Z_DXC_EMPLOYEE_MGMT_SRV" xml:lang="en" sap:schema-version="1">
+			<EntityType Name="Z_C_ASSIGNMENTType" sap:label="Consumption CDS: Projekteinsatz" sap:content-version="1">
+				<Key><PropertyRef Name="EmployeeID"/><PropertyRef Name="ProjectID"/></Key><Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="5" sap:display-format="UpperCase" sap:label="Mitarbeiter ID"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter ID"/><Property Name="ProjectID" Type="Edm.String" Nullable="false" MaxLength="8" sap:display-format="UpperCase" sap:label="Projekt ID"
+					sap:quickinfo="DXC Mitarbeitermanagement - Projekt ID"/><Property Name="AssignmentDescr" Type="Edm.String" MaxLength="200" sap:display-format="UpperCase" sap:label="Notiz"
+					sap:quickinfo="DXC Mitarbeitermanagement - Projekteinsatz Notizen"/><NavigationProperty Name="to_Project" Relationship="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_11C5923C13016577111D27D7C5C3277C"
+					FromRole="FromRole_assoc_11C5923C13016577111D27D7C5C3277C" ToRole="ToRole_assoc_11C5923C13016577111D27D7C5C3277C"/><NavigationProperty Name="to_Employee" Relationship="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_29FA2C49412E9A7084CC5CCA4B5B0796"
+					FromRole="ToRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796" ToRole="FromRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"/></EntityType>
+			<EntityType Name="Z_C_CUSTOMERType" sap:label="Consumption CDS: Kunden" sap:content-version="1">
+				<Key><PropertyRef Name="CustomerID"/></Key><Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="7" sap:display-format="UpperCase" sap:label="Kunden ID"
+					sap:quickinfo="DXC Mitarbeitermanagement - Kunde ID"/><Property Name="Name" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Kundenname"
+					sap:quickinfo="DXC Mitarbeitermanagement - Kundenname"/><Property Name="Street" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Straße"
+					sap:quickinfo="DXC Mitarbeitermanagement - Straße"/><Property Name="HouseNumber" Type="Edm.String" MaxLength="7" sap:display-format="UpperCase" sap:label="Hausnummer"
+					sap:quickinfo="DXC Mitarbeitermanagement - Hausnummer"/><Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postleitzahl"
+					sap:quickinfo="DXC Mitarbeitermanagement - Postleitzahl"/><Property Name="Location" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Ort"
+					sap:quickinfo="DXC Mitarbeitermanagement - Ort"/><Property Name="Country" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Land"
+					sap:quickinfo="DXC Mitarbeitermanagement - Land"/><NavigationProperty Name="to_Project" Relationship="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_741A27F786BA48C2D45994A30C2215E9"
+					FromRole="ToRole_assoc_741A27F786BA48C2D45994A30C2215E9" ToRole="FromRole_assoc_741A27F786BA48C2D45994A30C2215E9"/></EntityType>
+			<EntityType Name="Z_C_EMPLOYEEType" sap:label="Consumption CDS: Mitarbeiter" sap:content-version="1">
+				<Key><PropertyRef Name="EmployeeID"/></Key><Property Name="EmployeeID" Type="Edm.String" Nullable="false" MaxLength="5" sap:display-format="UpperCase" sap:label="Mitarbeiter ID"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter ID"/><Property Name="Firstname" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Vorname"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Vorname"/><Property Name="Lastname" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Nachname"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Nachname"/><Property Name="Jobtitle1" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Jobtitel"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Jobtitel1"/><Property Name="Jobtitle2" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Jobtitel"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Jobtitel2"/><Property Name="Manager" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Manager"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Manager"/><Property Name="Organisation" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label=" Abteilung"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Abteilung"/><Property Name="AvailableFrom" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Verfügbarkeitsdatum"
+					sap:quickinfo="DXC Mitarbeitermanagement - Mitarbeiter Verfügbarkeitsdatum"/><Property Name="Street" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Straße"
+					sap:quickinfo="DXC Mitarbeitermanagement - Straße"/><Property Name="HouseNumber" Type="Edm.String" MaxLength="7" sap:display-format="UpperCase" sap:label="Hausnummer"
+					sap:quickinfo="DXC Mitarbeitermanagement - Hausnummer"/><Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postleitzahl"
+					sap:quickinfo="DXC Mitarbeitermanagement - Postleitzahl"/><Property Name="Location" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Ort"
+					sap:quickinfo="DXC Mitarbeitermanagement - Ort"/><Property Name="Country" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Land"
+					sap:quickinfo="DXC Mitarbeitermanagement - Land"/><NavigationProperty Name="to_Assignment" Relationship="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_29FA2C49412E9A7084CC5CCA4B5B0796"
+					FromRole="FromRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796" ToRole="ToRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"/></EntityType>
+			<EntityType Name="Z_C_PROJECTType" sap:label="Consumption CDS: Projekt" sap:content-version="1">
+				<Key><PropertyRef Name="ProjectID"/><PropertyRef Name="CustomerID"/></Key><Property Name="ProjectID" Type="Edm.String" Nullable="false" MaxLength="8" sap:display-format="UpperCase" sap:label="Projekt ID"
+					sap:quickinfo="DXC Mitarbeitermanagement - Projekt ID"/><Property Name="CustomerID" Type="Edm.String" Nullable="false" MaxLength="7" sap:display-format="UpperCase" sap:label="Kunden ID"
+					sap:quickinfo="DXC Mitarbeitermanagement - Kunde ID"/><Property Name="ProjectTitle" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="Projekttitel"
+					sap:quickinfo="DXC Mitarbeitermanagement - Projekttitel"/><Property Name="ProjectBegin" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Startdatum"
+					sap:quickinfo="DXC Mitarbeitermanagement - Projekt Startdatum"/><Property Name="ProjectEnd" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Enddatum"
+					sap:quickinfo="DXC Mitarbeitermanagement - Projekt Enddatum"/><NavigationProperty Name="to_Assignment" Relationship="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_524150E24178BCB7FA72F58562FE937E"
+					FromRole="FromRole_assoc_524150E24178BCB7FA72F58562FE937E" ToRole="ToRole_assoc_524150E24178BCB7FA72F58562FE937E"/><NavigationProperty Name="to_Customer" Relationship="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_741A27F786BA48C2D45994A30C2215E9"
+					FromRole="FromRole_assoc_741A27F786BA48C2D45994A30C2215E9" ToRole="ToRole_assoc_741A27F786BA48C2D45994A30C2215E9"/></EntityType>
+			<Association Name="assoc_29FA2C49412E9A7084CC5CCA4B5B0796" sap:content-version="1"><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_EMPLOYEEType" Multiplicity="1" Role="FromRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"/><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_ASSIGNMENTType" Multiplicity="*" Role="ToRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"/>
+				<ReferentialConstraint>
+					<Principal Role="FromRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"><PropertyRef Name="EmployeeID"/></Principal>
+					<Dependent Role="ToRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"><PropertyRef Name="EmployeeID"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_524150E24178BCB7FA72F58562FE937E" sap:content-version="1"><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_PROJECTType" Multiplicity="1" Role="FromRole_assoc_524150E24178BCB7FA72F58562FE937E"/><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_ASSIGNMENTType" Multiplicity="*" Role="ToRole_assoc_524150E24178BCB7FA72F58562FE937E"/></Association>
+			<Association Name="assoc_741A27F786BA48C2D45994A30C2215E9" sap:content-version="1"><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_PROJECTType" Multiplicity="1" Role="FromRole_assoc_741A27F786BA48C2D45994A30C2215E9"/><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_CUSTOMERType" Multiplicity="1" Role="ToRole_assoc_741A27F786BA48C2D45994A30C2215E9"/></Association>
+			<Association Name="assoc_11C5923C13016577111D27D7C5C3277C" sap:content-version="1"><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_ASSIGNMENTType" Multiplicity="1" Role="FromRole_assoc_11C5923C13016577111D27D7C5C3277C"/><End Type="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_PROJECTType" Multiplicity="1" Role="ToRole_assoc_11C5923C13016577111D27D7C5C3277C"/></Association>
+			<EntityContainer Name="Z_DXC_EMPLOYEE_MGMT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="Z_C_ASSIGNMENT" EntityType="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_ASSIGNMENTType" sap:content-version="1"/><EntitySet Name="Z_C_CUSTOMER" EntityType="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_CUSTOMERType" sap:content-version="1"/><EntitySet Name="Z_C_EMPLOYEE" EntityType="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_EMPLOYEEType" sap:content-version="1"/><EntitySet Name="Z_C_PROJECT" EntityType="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_PROJECTType" sap:content-version="1"/>
+				<AssociationSet Name="assoc_524150E24178BCB7FA72F58562FE937E" Association="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_524150E24178BCB7FA72F58562FE937E"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="Z_C_PROJECT" Role="FromRole_assoc_524150E24178BCB7FA72F58562FE937E"/><End EntitySet="Z_C_ASSIGNMENT" Role="ToRole_assoc_524150E24178BCB7FA72F58562FE937E"/></AssociationSet>
+				<AssociationSet Name="assoc_11C5923C13016577111D27D7C5C3277C" Association="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_11C5923C13016577111D27D7C5C3277C"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="Z_C_ASSIGNMENT" Role="FromRole_assoc_11C5923C13016577111D27D7C5C3277C"/><End EntitySet="Z_C_PROJECT" Role="ToRole_assoc_11C5923C13016577111D27D7C5C3277C"/></AssociationSet>
+				<AssociationSet Name="assoc_741A27F786BA48C2D45994A30C2215E9" Association="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_741A27F786BA48C2D45994A30C2215E9"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="Z_C_PROJECT" Role="FromRole_assoc_741A27F786BA48C2D45994A30C2215E9"/><End EntitySet="Z_C_CUSTOMER" Role="ToRole_assoc_741A27F786BA48C2D45994A30C2215E9"/></AssociationSet>
+				<AssociationSet Name="assoc_29FA2C49412E9A7084CC5CCA4B5B0796" Association="Z_DXC_EMPLOYEE_MGMT_SRV.assoc_29FA2C49412E9A7084CC5CCA4B5B0796"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="Z_C_EMPLOYEE" Role="FromRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"/><End EntitySet="Z_C_ASSIGNMENT" Role="ToRole_assoc_29FA2C49412E9A7084CC5CCA4B5B0796"/></AssociationSet>
+			</EntityContainer>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_ASSIGNMENTType">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>ProjectID</PropertyPath>
+						<PropertyPath>EmployeeID</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_CUSTOMERType">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>CustomerID</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_EMPLOYEEType">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>EmployeeID</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="Z_DXC_EMPLOYEE_MGMT_SRV.Z_C_PROJECTType">
+				<Annotation Term="Common.SemanticKey">
+					<Collection>
+						<PropertyPath>CustomerID</PropertyPath>
+						<PropertyPath>ProjectID</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/Z_DXC_EMPLOYEE_MGMT_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/Z_DXC_EMPLOYEE_MGMT_SRV/$metadata"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,57 @@
+<mvc:View controllerName="dxc.hr.project.mngmt.controller.ProjectOverview" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:vk="sap.ui.vk" xmlns:vbm="sap.ui.vbm" xmlns:smartForm="sap.ui.comp.smartform" xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:u="sap.ui.unified" displayBlock="true" height="100%">
+	<semantic:FullscreenPage id="projectOverviewPage" showNavButton="true" navButtonPress="onNavBack" title="{i18n>title_projectOverview}">
+		<!--<semantic:customHeaderContent></semantic:customHeaderContent>-->
+		<semantic:content>
+			<VBox>
+				<ObjectHeader id="projectObjectHeader" responsive="true" intro="{ProjectID}" title="{ProjectTitle}" showMarkers="false" markFlagged="true"
+					markFavorite="false" backgroundDesign="Translucent">
+					<!--	<attributes>
+						<ObjectAttribute title="{i18n>projectIdAttribute}" text="{projectID}"/>
+						<ObjectAttribute title="{i18n>projectAddressAttribute}" text="{Address}"/>
+						<ObjectAttribute title="{i18n>projectCountryAttribute}" text="{Country}"/>
+					</attributes>-->
+				</ObjectHeader>
+			</VBox>
+			<!--<l:VerticalLayout id="containerLayout" width="100%">-->
+			<VBox>
+				<l:BlockLayout id="BlockLayout">
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell class="mapCell">
+							<!--	<cockx:GoogleMap id="googleMap" key="AIzaSyByt9iP22wQdzlCDQaH3KLRV-vwWhwmzVc" address="{Address} {PostCode} {City} {Country}"/>
+						-->
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell class="descriptionCell">
+							<!--title="{i18n>smartFormprojectData}"-->
+							<smartForm:SmartForm id="projectSmartForm" title="{i18n>smartFormProjectData}">
+								<smartForm:customToolbar>
+									<!--	<Toolbar>
+										<ToolbarSpacer/>
+										<u:FileUploader enabled="false" id="fileUploaderproject" buttonOnly="true" buttonText="{i18n>projectUploadImage}"
+											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg" sendXHR="true" useMultipart="false"
+											change="onChange"/>
+										<Button id="projectEditBtn" class="projectEditButton" icon="sap-icon://edit" press="onEditproject"/>
+									</Toolbar>-->
+								</smartForm:customToolbar>
+								<smartForm:Group>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="projectEditprojectID" textLabel="{i18n>label_ProjectId}" value="{ProjectID}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="projectEditProjectTitle" textLabel="{i18n>label_ProjectTitle}" value="{ProjectTitle}"/>
+									</smartForm:GroupElement>
+								</smartForm:Group>
+							</smartForm:SmartForm>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+				</l:BlockLayout>
+			</VBox>
+			<!--</l:VerticalLayout>-->
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="{i18n>projectDelete}" type="Reject" press="onDeleteproject" icon="sap-icon://delete" tooltip="{i18n>projectDelete}"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+</mvc:View>

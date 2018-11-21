@@ -1,0 +1,93 @@
+<mvc:View controllerName="dxc.hr.employee.mngmt.controller.EmployeeOverview" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:vk="sap.ui.vk" xmlns:vbm="sap.ui.vbm" xmlns:smartForm="sap.ui.comp.smartform" xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:u="sap.ui.unified" displayBlock="true" height="100%">
+	<semantic:FullscreenPage id="employeeOverviewPage" showNavButton="true" navButtonPress="onNavBack" title="{i18n>employeeOverviewTitle}">
+		<!--<semantic:customHeaderContent></semantic:customHeaderContent>-->
+		<semantic:content>
+			<VBox>
+				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1}" title="{Firstname} {Lastname}" showMarkers="false"
+					markFlagged="true" markFavorite="false" backgroundDesign="Translucent"></ObjectHeader>
+			</VBox>
+			<VBox>
+				<l:BlockLayout id="BlockLayout">
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell class="descriptionCell">
+							<smartForm:SmartForm id="employeeSmartForm" title="{i18n>smartFormEmployeeData}">
+								<smartForm:customToolbar>
+									<Toolbar>
+										<ToolbarSpacer/>
+										<u:FileUploader enabled="false" id="fileUploaderEmployee" buttonOnly="true" buttonText="{i18n>employeeUploadImage}"
+											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg" sendXHR="true" useMultipart="false"
+											change="onChange"/>
+									</Toolbar>
+								</smartForm:customToolbar>
+								<smartForm:Group>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditEmployeeID" textLabel="{i18n>employeeEmployeeIdLabel}" value="{EmployeeID}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditName" textLabel="{i18n>employeeNameLabel}" value="{Lastname}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditFirstName" textLabel="{i18n>employeeFirstnameLabel}" value="{Firstname}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditJobtitle1" textLabel="{i18n>employeeJobtitle1Label}" value="{Jobtitle1}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditJobtitle2" textLabel="{i18n>employeeJobtitle2Label}" value="{Jobtitle2}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditManager" textLabel="{i18n>employeeManagerLabel}" value="{Manager}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditOrganisation" textLabel="{i18n>employeeOrganisationLabel}" value="{Organisation}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="emplyeeEditAvailableFrom" textLabel="{i18n>employeeAvailableFromLabel}" value="{AvailableFrom}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditStreet" textLabel="{i18n>employeeStreetLabel}" value="{Street}" editable="true"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditPostCode" textLabel="{i18n>employeePostCodeLabel}" value="{PostalCode}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditCity" textLabel="{i18n>employeeCityLabel}" value="{Location}"/>
+									</smartForm:GroupElement>
+									<smartForm:GroupElement>
+										<smartField:SmartField id="employeeEditCountry" textLabel="{i18n>employeeCountryLabel}" value="{Country}"/>
+									</smartForm:GroupElement>
+								</smartForm:Group>
+							</smartForm:SmartForm>
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell class="historyCell">
+							<Button id="historySortBtn" class="historySortButton" icon="sap-icon://sort" press="onSortHistoryAssignments"/>
+							<List id="employeeAssignmentHistory" updateFinished="onUpdateFinished" busyIndicatorDelay="{masterView>/delay}"
+								noDataText="{masterView>/noDataText}" mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" growing="true"
+								growingScrollToLoad="true" headerText="{i18n>employeeListItemsTitle}">
+								<items>
+									<ObjectListItem id="employeeAppointmentListItem" type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange"
+										title="{to_Project/ProjectTitle}">
+										<attributes>
+											<ObjectAttribute text="{i18n>assignmentProjectIdLbl}: {ProjectID}"/>
+											<ObjectAttribute text="{i18n>assignmentCustomerIdLbl}: {to_Project/CustomerID}"/>
+											<ObjectAttribute text="{i18n>assignmentBeginLbl}: { path:'assignstart', formatter:'.formatter.date' }"/>
+											<ObjectAttribute text="{i18n>assignmentEndLbl}: { path:'assignend', formatter:'.formatter.date' }"/>
+											<ObjectAttribute text="{i18n>assignmentNoteLbl}: {assignmentnote}"/>
+										</attributes>
+									</ObjectListItem>
+								</items>
+							</List>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+				</l:BlockLayout>
+			</VBox>
+			<!--</l:VerticalLayout>-->
+		</semantic:content>
+		<!--		<semantic:customFooterContent>
+			<Button text="{i18n>employeeDelete}" type="Reject" press="onDeleteEmployee" icon="sap-icon://delete" tooltip="{i18n>employeeDelete}"/>
+		</semantic:customFooterContent>-->
+	</semantic:FullscreenPage>
+</mvc:View>
