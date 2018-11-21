@@ -18,7 +18,6 @@ sap.ui.define([
 
 		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
-			console.log("Test");
 		},
 
 		/**
