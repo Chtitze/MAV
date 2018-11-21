@@ -2,7 +2,6 @@
 	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:semantic="sap.m.semantic" xmlns:smartForm="sap.ui.comp.smartform"
 	xmlns:smartField="sap.ui.comp.smartfield" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:unified="sap.ui.unified" xmlns="sap.m"
 	height="100%">
-<<<<<<< HEAD
 	<semantic:FullscreenPage id="planningCalendarPage" showNavButton="false">
 		<semantic:content>
 			<VBox>
@@ -28,8 +27,6 @@
 			<VBox id="appointmentVBox"/>
 		</semantic:content>
 	</semantic:FullscreenPage>
-=======
->>>>>>> refs/heads/master
 	<VBox>
 		<PlanningCalendar id="planningCalendarEmployee" rows="{path: '/Z_C_EMPLOYEE'}" appointmentsVisualization="Filled"
 			rowHeaderClick="handleRowHeaderClick" class="sapUiSmallMargin sapUiResponsiveMargin sapUiNoContentPadding"

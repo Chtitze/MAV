@@ -15,7 +15,8 @@ sap.ui.define([
 		_handleRouteMatched: function () {},
 
 		handleRowHeaderClick: function (oEvent) {
-			var oModel = this.getView().getModel();
+			var oRouter = this.getOwnerComponent().getRouter();
+			
 			var oRow = oEvent.getParameter("row");
 			if (oRow) {
 				var sBindingPath = oRow.getBindingContext().sPath;
@@ -23,7 +24,7 @@ sap.ui.define([
 				var sEmployeeID = sBindingPath.slice(n + 1, sBindingPath.length);
 				var m = sEmployeeID.search("'");
 				sEmployeeID = sEmployeeID.slice(0, m);
-				this.getRouter().navTo("EmployeeOverview", {
+				oRouter.navTo("EmployeeOverview", {
 					EmployeeID: sEmployeeID
 				});
 			}
