@@ -59,12 +59,20 @@ sap.ui.define([
 			var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
 
 			this.employeeBindingPath = "/Z_C_EMPLOYEE('" + iEmployeeId + "')";
+			
 			var sEmployeeProperty = this.getView().getModel().getProperty(this.employeeBindingPath);
 			this.getView().byId("employeeObjectHeader").bindElement(this.employeeBindingPath);
 			this.getView().byId("employeeSmartForm").bindElement(this.employeeBindingPath);
 			if (!this._oItemTemplate) {
 				this._oItemTemplate = this.getView().byId("employeeAppointmentListItem").clone();
 			}
+			
+			// bind quota quart
+			this.employeeUtilizationBindingPath = "/EmployeeUtilizations('" + iEmployeeId + "')";
+			console.log(this.employeeUtilizationBindingPath);
+			this.getView().byId("quotaChart").bindElement(this.employeeUtilizationBindingPath);
+			this.getView().byId("utilizationChart").bindElement(this.employeeUtilizationBindingPath);
+			
 			var mParameters = {
 				path: this.employeeBindingPath + "/to_Assignment",
 				expand: 'to_Assignment/to_Project'

@@ -1,13 +1,36 @@
 <mvc:View controllerName="dxc.hr.employee.mngmt.controller.EmployeeOverview" xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
 	xmlns:vk="sap.ui.vk" xmlns:vbm="sap.ui.vbm" xmlns:smartForm="sap.ui.comp.smartform" xmlns:smartField="sap.ui.comp.smartfield"
-	xmlns:u="sap.ui.unified" displayBlock="true" height="100%">
+	xmlns:u="sap.ui.unified" xmlns:chart="sap.suite.ui.microchart" displayBlock="true" height="100%">
 	<semantic:FullscreenPage id="employeeOverviewPage" showNavButton="true" navButtonPress="onNavBack" title="{i18n>employeeOverviewTitle}">
 		<!--<semantic:customHeaderContent></semantic:customHeaderContent>-->
 		<semantic:content>
 			<VBox>
 				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1} - {Jobtitle2}" title="{Firstname} {Lastname}"
-					showMarkers="false" markFlagged="true" markFavorite="false" backgroundDesign="Translucent" icon="sap-icon://employee"></ObjectHeader>
+					showMarkers="false" markFlagged="true" markFavorite="false" backgroundDesign="Translucent" icon="sap-icon://employee">
+					<headerContainer>
+						<HeaderContainer scrollStep="200" id="container1">
+							<VBox>
+								<Title text="{i18n>quotaChartDescr}"/>
+								<chart:HarveyBallMicroChart id="quotaChart" size="M" total="100" totalScale="%" colorPalette="sapUiChartPaletteQualitativeHue1"
+									showTotal="false">
+									<chart:items>
+										<chart:HarveyBallMicroChartItem fraction="{ path:'Quota', type: 'sap.ui.model.odata.type.Decimal'}" fractionScale="%"/>
+									</chart:items>
+								</chart:HarveyBallMicroChart>
+							</VBox>
+							<VBox>
+								<Title text="{i18n>utilizationChartDescr}"/>
+								<chart:HarveyBallMicroChart id="utilizationChart" size="M" total="100" totalScale="%" colorPalette="sapUiChartPaletteQualitativeHue1"
+									showTotal="false">
+									<chart:items>
+										<chart:HarveyBallMicroChartItem fraction="{ path:'Utilization', type: 'sap.ui.model.odata.type.Decimal'}" fractionScale="%"/>
+									</chart:items>
+								</chart:HarveyBallMicroChart>
+							</VBox>
+						</HeaderContainer>
+					</headerContainer>
+				</ObjectHeader>
 			</VBox>
 			<VBox>
 				<l:BlockLayout id="BlockLayout">
