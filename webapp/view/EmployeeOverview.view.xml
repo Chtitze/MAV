@@ -7,9 +7,12 @@
 		<semantic:content>
 			<VBox>
 				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1} - {Jobtitle2}" title="{Firstname} {Lastname}"
-					showMarkers="false" markFlagged="true" markFavorite="false" backgroundDesign="Translucent" icon="sap-icon://employee">
+					backgroundDesign="Translucent" icon="sap-icon://employee">
+					<attributes>
+						<ObjectAttribute title="" text=""/>
+					</attributes>
 					<headerContainer>
-						<HeaderContainer scrollStep="200" id="container1">
+						<HeaderContainer scrollStep="200" id="headerContainerEmployeeOverview" class="sapUiSmallMargin">
 							<VBox>
 								<Title text="{i18n>quotaChartDescr}"/>
 								<chart:HarveyBallMicroChart id="quotaChart" size="M" total="100" totalScale="%" colorPalette="sapUiChartPaletteQualitativeHue1"
@@ -86,10 +89,20 @@
 							</smartForm:SmartForm>
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell class="historyCell">
-							<Button id="historySortBtn" class="historySortButton" icon="sap-icon://sort" press="onSortHistoryAssignments"/>
 							<List id="employeeAssignmentHistory" updateFinished="onUpdateFinished" busyIndicatorDelay="{masterView>/delay}"
 								noDataText="{masterView>/noDataText}" mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}" growing="true"
 								growingScrollToLoad="true" headerText="{i18n>employeeListItemsTitle}">
+								<headerToolbar>
+									<Toolbar>
+										<content>
+											<Title id="EmployeePositionsTitle" level="H2"/>
+											<ToolbarSpacer/>
+											<SearchField liveChange="onSearch" width="25%"/>
+											<Button icon="sap-icon://sort" press="onSortProjectsTable"/>
+											<!--<Button icon="sap-icon://decline" press="onClosePurchaseTable"/>-->
+										</content>
+									</Toolbar>
+								</headerToolbar>
 								<items>
 									<ObjectListItem id="employeeAppointmentListItem" type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange"
 										title="{to_Project/ProjectTitle}">

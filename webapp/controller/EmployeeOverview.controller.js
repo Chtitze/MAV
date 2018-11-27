@@ -4,8 +4,9 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"sap/m/Button",
 	"dxc/hr/employee/mngmt/model/formatter",
-	"sap/ui/model/Sorter"
-], function (BaseController, Device, History, Button, formatter, Sorter) {
+	"sap/ui/model/Sorter",
+	"sap/ui/model/Filter",
+], function (BaseController, Device, History, Button, formatter, Sorter, Filter) {
 	"use strict";
 
 	return BaseController.extend("dxc.hr.employee.mngmt.controller.EmployeeOverview", {
@@ -56,35 +57,81 @@ sap.ui.define([
 		 */
 		_handleRouteMatched: function (oEvent) {
 			var iEmployeeId = oEvent.getParameter("arguments").EmployeeID;
-			var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
+			//var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
+			// Get list 
+			var oList = this.byId("employeeAssignmentHistory");
 
 			this.employeeBindingPath = "/Z_C_EMPLOYEE('" + iEmployeeId + "')";
-			
-			var sEmployeeProperty = this.getView().getModel().getProperty(this.employeeBindingPath);
+
+			//var sEmployeeProperty = this.getView().getModel().getProperty(this.employeeBindingPath);
 			this.getView().byId("employeeObjectHeader").bindElement(this.employeeBindingPath);
 			this.getView().byId("employeeSmartForm").bindElement(this.employeeBindingPath);
 			if (!this._oItemTemplate) {
 				this._oItemTemplate = this.getView().byId("employeeAppointmentListItem").clone();
 			}
-			
+
 			// bind quota quart
 			this.employeeUtilizationBindingPath = "/EmployeeUtilizations('" + iEmployeeId + "')";
-			console.log(this.employeeUtilizationBindingPath);
 			this.getView().byId("quotaChart").bindElement(this.employeeUtilizationBindingPath);
 			this.getView().byId("utilizationChart").bindElement(this.employeeUtilizationBindingPath);
-			
+
 			var mParameters = {
 				path: this.employeeBindingPath + "/to_Assignment",
 				expand: 'to_Assignment/to_Project'
 			};
-			this.getView().byId("employeeAssignmentHistory").bindItems({
+
+			var oSorter = new Sorter("assignstart", true);
+
+			oList.bindItems({
 				path: mParameters.path,
 				expand: mParameters.expand,
-				template: this._oItemTemplate
+				template: this._oItemTemplate,
+				sorter: oSorter
 			});
+
+			oList.attachUpdateFinished(this.onListUpdateFinished, this);
+		},
+
+		onListUpdateFinished: function (oEvent) {
+			// Get list 
+			var oList = this.byId("employeeAssignmentHistory");
+			// Get list count
+			this.iLength = oList.getItems().length;
+			// Get Resource Bundle 
+			var sTableTitle = this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("ProjekgPositions");
+			// Replace pattern with count
+			var sTableTitleWithCount = sTableTitle.replace("&&", this.iLength);
+			// set the title
+			this.getView().byId("EmployeePositionsTitle").setText(sTableTitleWithCount);
 		},
 
 		onSortHistoryAssignments: function (oEvent) {
+			// add filter for sorting
+			var aSorter = [];
+			var oList = this.getView().byId("employeeAssignmentHistory");
+			var oItems = oList.getBinding("items");
+			aSorter = oItems.aSorters[0];
+			var oDescending = aSorter.bDescending;
+			var oSorter = new Sorter("assignstart", !oDescending);
+			oItems.sort(oSorter);
+		},
+
+		onSearch: function (oEvent) {
+			// add filter for search
+			var aFilters = [];
+			var sQuery = oEvent.getSource().getValue();
+			if (sQuery && sQuery.length > 0) {
+				var filterNumber = new Filter("to_Project/ProjectTitle", sap.ui.model.FilterOperator.Contains, sQuery);
+				aFilters.push(filterNumber);
+			}
+
+			// update list binding
+			var oList = this.byId("employeeAssignmentHistory");
+			var binding = oList.getBinding("items");
+			binding.filter(aFilters, "Application");
+		},
+
+		onSortProjectsTable: function (oEvent) {
 			// add filter for sorting
 			var aSorter = [];
 			var oList = this.getView().byId("employeeAssignmentHistory");
