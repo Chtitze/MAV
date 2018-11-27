@@ -169,7 +169,6 @@ sap.ui.define([
 			} else {
 				oEmpObjHdr.setIcon("sap-icon://employee");
 			}
-
 		},
 
 		onChange: function (oEvent) {

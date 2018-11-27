@@ -1,9 +1,13 @@
 sap.ui.define([
-	"dxc/hr/employee/mngmt/controller/BaseController"
-], function (BaseController) {
+	"dxc/hr/employee/mngmt/controller/BaseController",
+	"dxc/hr/employee/mngmt/model/formatter",
+], function (BaseController, formatterImage) {
 	"use strict";
 
 	return BaseController.extend("dxc.hr.employee.mngmt.controller.PlanningCalendar", {
+
+		formatterImage: formatterImage,
+
 		onInit: function () {
 			this.oModel = this.getAppModel();
 			this._oView = this.getView();
@@ -13,13 +17,12 @@ sap.ui.define([
 		},
 
 		_handleRouteMatched: function () {
-			
-			
+
 		},
 
 		handleRowHeaderClick: function (oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
-			
+
 			var oRow = oEvent.getParameter("row");
 			if (oRow) {
 				var sBindingPath = oRow.getBindingContext().sPath;

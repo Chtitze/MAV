@@ -1,4 +1,6 @@
-sap.ui.define([], function () {
+sap.ui.define([
+	"sap/ui/core/format/DateFormat"
+	], function (DateFormat) {
 	"use strict";
 
 	return {
@@ -9,8 +11,19 @@ sap.ui.define([], function () {
 		 * @param {string} sValue value to be formatted
 		 * @returns {string} formatted currency value with 2 digits
 		 */
+		 convertimg: function (sImage) {
+			if (sImage !== "") {
+				var sBase64Anno = "data:image/bmp;base64,";
+				var res = sBase64Anno.concat(sImage);
+				return res;
+			} else {
+				var uri = "sap-icon://employee";
+				return uri;
+			}
+		},
 
 		date: function (sDate) {
+			//console.log(sDate);
 			if (sDate) {
 				var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 					format: "yyyyMMdd",
