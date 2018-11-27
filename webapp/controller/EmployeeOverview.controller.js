@@ -6,7 +6,9 @@ sap.ui.define([
 	"dxc/hr/employee/mngmt/model/formatter",
 	"sap/ui/model/Sorter",
 	"sap/ui/model/Filter",
-], function (BaseController, Device, History, Button, formatter, Sorter, Filter) {
+	"sap/m/MessageToast",
+	"sap/ui/unified/FileUploaderParameter",
+], function (BaseController, Device, History, Button, formatter, Sorter, Filter, MessageToast, FileUploaderParameter) {
 	"use strict";
 
 	return BaseController.extend("dxc.hr.employee.mngmt.controller.EmployeeOverview", {
@@ -56,14 +58,24 @@ sap.ui.define([
 		 * @private
 		 */
 		_handleRouteMatched: function (oEvent) {
-			var iEmployeeId = oEvent.getParameter("arguments").EmployeeID;
-			//var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
+			this.iEmployeeId = oEvent.getParameter("arguments").EmployeeID;
+			var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
+			this.getView().byId("btnSaveEmployee").setEnabled(false);
 			// Get list 
 			var oList = this.byId("employeeAssignmentHistory");
 
-			this.employeeBindingPath = "/Z_C_EMPLOYEE('" + iEmployeeId + "')";
+			this.employeeBindingPath = "/Z_C_EMPLOYEE('" + this.iEmployeeId + "')";
 
-			//var sEmployeeProperty = this.getView().getModel().getProperty(this.employeeBindingPath);
+			var sEmployeeProperty = this.getView().getModel().getProperty(this.employeeBindingPath);
+			if (sEmployeeProperty.FileName !== "") {
+				var sURL = "/sap/opu/odata/sap/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet(EmployeeID='" + sEmployeeProperty.EmployeeID +
+					"',FileName='" +
+					sEmployeeProperty.FileName + "')/$value";
+				oEmpObjHdr.setIcon(sURL);
+			} else {
+				oEmpObjHdr.setIcon("sap-icon://employee");
+			}
+
 			this.getView().byId("employeeObjectHeader").bindElement(this.employeeBindingPath);
 			this.getView().byId("employeeSmartForm").bindElement(this.employeeBindingPath);
 			if (!this._oItemTemplate) {
@@ -71,7 +83,7 @@ sap.ui.define([
 			}
 
 			// bind quota quart
-			this.employeeUtilizationBindingPath = "/EmployeeUtilizations('" + iEmployeeId + "')";
+			this.employeeUtilizationBindingPath = "/EmployeeUtilizations('" + this.iEmployeeId + "')";
 			this.getView().byId("quotaChart").bindElement(this.employeeUtilizationBindingPath);
 			this.getView().byId("utilizationChart").bindElement(this.employeeUtilizationBindingPath);
 
@@ -90,6 +102,7 @@ sap.ui.define([
 			});
 
 			oList.attachUpdateFinished(this.onListUpdateFinished, this);
+
 		},
 
 		onListUpdateFinished: function (oEvent) {
@@ -140,6 +153,88 @@ sap.ui.define([
 			var oDescending = aSorter.bDescending;
 			var oSorter = new Sorter("assignstart", !oDescending);
 			oItems.sort(oSorter);
+		},
+
+		handleUploadComplete: function (oEvent) {
+			this.getView().getModel().refresh();
+			var response = oEvent.getParameter("response");
+			var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
+
+			if (response) {
+				var sURL = "/sap/opu/odata/SAP/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet(EmployeeID='" + this.iEmployeeId +
+					"',FileName='" +
+					this.sFileName + "')/$value";
+				oEmpObjHdr.setIcon("");
+				oEmpObjHdr.setIcon(sURL);
+			} else {
+				oEmpObjHdr.setIcon("sap-icon://employee");
+			}
+
+		},
+
+		onChange: function (oEvent) {
+			var oFileUploader = this.getView().byId("fileUploaderEmployee");
+			var oSaveButton = this.getView().byId("btnSaveEmployee");
+			this.sFileName = oFileUploader.getValue();
+
+			if (this.sFileName !== "") {
+				oSaveButton.setEnabled(true);
+			} else {
+				oSaveButton.setEnabled(false);
+			}
+		},
+
+		onSaveEmployee: function (oEvent) {
+			var oModel = this.getView().getModel();
+			var oFileUploader = this.getView().byId("fileUploaderEmployee");
+
+			this.getView().setBusy(false);
+
+			// Refresh Security Token
+			oModel.refreshSecurityToken();
+			// Success message 
+			var successMsg = this.getResourceBundle().getText("updateEmployeeSuccess");
+			var oEmployee = oModel.getProperty(this.employeeBindingPath);
+
+			var sSuccessName = oEmployee.Lastname;
+			var sSuccessFirstname = oEmployee.Firstname;
+			successMsg = successMsg.replace("&&", sSuccessFirstname.concat(" " + sSuccessName));
+			MessageToast.show(successMsg);
+
+			// Check if the user has select an employee image
+			this.sFileName = oFileUploader.getValue();
+			if (this.sFileName) {
+				//var sEmployeeID = this.oUpdateEmployee.EmployeeID;
+				// Prepare the file uploader object
+				var sURL = "/sap/opu/odata/SAP/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet";
+				oFileUploader.setUploadUrl(sURL);
+
+				oFileUploader.addHeaderParameter(new FileUploaderParameter({
+					name: "x-csrf-token",
+					value: oModel.getSecurityToken()
+				}));
+
+				oFileUploader.addHeaderParameter(new FileUploaderParameter({
+					name: "content-type",
+					value: "image/jpeg"
+				}));
+
+				oFileUploader.addHeaderParameter(new FileUploaderParameter({
+					name: "slug",
+					value: this.sFileName
+				}));
+
+				oFileUploader.addHeaderParameter(new FileUploaderParameter({
+					name: "slug",
+					value: this.iEmployeeId
+				}));
+				// Upload file
+				oFileUploader.upload();
+				oFileUploader.destroyHeaderParameters();
+				oFileUploader.clear();
+			}
+			// Set File Uploader enabled false
+			//oFileUploader.setEnabled(false);
 		},
 
 		onNavBack: function () {

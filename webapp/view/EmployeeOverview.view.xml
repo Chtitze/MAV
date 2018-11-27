@@ -7,7 +7,7 @@
 		<semantic:content>
 			<VBox>
 				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1} - {Jobtitle2}" title="{Firstname} {Lastname}"
-					backgroundDesign="Translucent" icon="sap-icon://employee">
+					backgroundDesign="Translucent" >
 					<attributes>
 						<ObjectAttribute title="" text=""/>
 					</attributes>
@@ -43,9 +43,10 @@
 								<smartForm:customToolbar>
 									<Toolbar>
 										<ToolbarSpacer/>
-										<u:FileUploader enabled="false" id="fileUploaderEmployee" buttonOnly="true" buttonText="{i18n>employeeUploadImage}"
-											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg" sendXHR="true" useMultipart="false"
+										<u:FileUploader enabled="true" id="fileUploaderEmployee" buttonOnly="true" buttonText="{i18n>employeeUploadImage}"
+											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg,PNG" sendXHR="true" useMultipart="false"
 											change="onChange"/>
+										<Button id="btnSaveEmployee" icon="sap-icon://save" press="onSaveEmployee"/>
 									</Toolbar>
 								</smartForm:customToolbar>
 								<smartForm:Group>

@@ -11,7 +11,6 @@ sap.ui.define([], function () {
 		 */
 
 		date: function (sDate) {
-			console.log(sDate);
 			if (sDate) {
 				var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 					format: "yyyyMMdd",
