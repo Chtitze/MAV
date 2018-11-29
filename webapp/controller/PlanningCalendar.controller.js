@@ -16,7 +16,9 @@ sap.ui.define([
 			this.getRouter().getRoute("PlanningCalendar").attachPatternMatched(this._handleRouteMatched, this);
 		},
 
-		_handleRouteMatched: function () {},
+		_handleRouteMatched: function () {
+
+		},
 
 		handleRowHeaderClick: function (oEvent) {
 			var oRouter = this.getOwnerComponent().getRouter();
