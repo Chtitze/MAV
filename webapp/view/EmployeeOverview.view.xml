@@ -7,7 +7,7 @@
 		<semantic:content>
 			<VBox>
 				<ObjectHeader id="employeeObjectHeader" responsive="true" intro="{Jobtitle1} - {Jobtitle2}" title="{Firstname} {Lastname}"
-					backgroundDesign="Translucent" >
+					backgroundDesign="Translucent">
 					<attributes>
 						<ObjectAttribute title="" text=""/>
 					</attributes>
@@ -31,6 +31,15 @@
 									</chart:items>
 								</chart:HarveyBallMicroChart>
 							</VBox>
+							<VBox>
+								<chart:LineMicroChart id="employeeUtilizationLineChart" showPoints="true" size="L" threshold="0" class="sapUiTinyMarginTop">
+									<!--points="{ path: '/', templateShareable: true }"-->
+									<chart:points>
+										<chart:LineMicroChartPoint id="lineChartpointTemplate" x="{ path:'Xaxis', type: 'sap.ui.model.odata.type.Decimal'}"
+										                           y="{path: 'Yaxis', type: 'sap.ui.model.odata.type.Decimal'}"/>
+									</chart:points>
+								</chart:LineMicroChart>
+							</VBox>
 						</HeaderContainer>
 					</headerContainer>
 				</ObjectHeader>
@@ -44,8 +53,8 @@
 									<Toolbar>
 										<ToolbarSpacer/>
 										<u:FileUploader enabled="true" id="fileUploaderEmployee" buttonOnly="true" buttonText="{i18n>employeeUploadImage}"
-											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg,PNG" sendXHR="true" useMultipart="false"
-											change="onChange"/>
+											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg,PNG" sendXHR="true"
+											useMultipart="false" change="onChange"/>
 										<Button id="btnSaveEmployee" icon="sap-icon://save" press="onSaveEmployee"/>
 									</Toolbar>
 								</smartForm:customToolbar>

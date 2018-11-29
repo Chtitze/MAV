@@ -8,7 +8,8 @@ sap.ui.define([
 	"sap/ui/model/Filter",
 	"sap/m/MessageToast",
 	"sap/ui/unified/FileUploaderParameter",
-], function (BaseController, Device, History, Button, formatter, Sorter, Filter, MessageToast, FileUploaderParameter) {
+	"sap/ui/model/json/JSONModel"
+], function (BaseController, Device, History, Button, formatter, Sorter, Filter, MessageToast, FileUploaderParameter, JSONModel) {
 	"use strict";
 
 	return BaseController.extend("dxc.hr.employee.mngmt.controller.EmployeeOverview", {
@@ -19,38 +20,11 @@ sap.ui.define([
 			this.oModel = this.getAppModel();
 			this._oView = this.getView();
 			this._oComponent = sap.ui.component(sap.ui.core.Component.getOwnerIdFor(this._oView));
+			// Init employee model
+			this._oModelEmployee = new JSONModel();
+			this.getView().setModel(this._oModelEmployee, "employee");
+
 			this.getRouter().getRoute("EmployeeOverview").attachPatternMatched(this._handleRouteMatched, this);
-		},
-
-		onEditEmployee: function () {
-			var oButton = this.getView().byId("employeeEditBtn");
-			var oSmartForm = this.getView().byId("employeeSmartForm");
-			var oFileUploader = this.getView().byId("fileUploaderEmployee");
-			var oModel = this.getView().getModel();
-
-			if (oButton.getIcon() === "sap-icon://edit") {
-				oButton.setIcon("sap-icon://save");
-				// Set Editable true
-				oSmartForm.setEditable(true);
-				this.getView().byId("employeeEditEmployeeID").setEditable(false);
-				oFileUploader.setEnabled(true);
-
-			} else {
-				oButton.setIcon("sap-icon://edit");
-				// Set Editable false
-				oSmartForm.setEditable(false);
-				// Build Update Object
-				var sPath = oSmartForm.getBindingContext().sPath;
-				this.oUpdateEmployee = oModel.getProperty(sPath);
-				this.getView().setBusy(true);
-
-				oModel.update(sPath, this.oUpdateEmployee, {
-					method: "PUT",
-					success: jQuery.proxy(this.onUpdateEmployeeSuccess, this),
-					error: this.serviceFail
-				});
-
-			}
 		},
 
 		/**
@@ -58,17 +32,21 @@ sap.ui.define([
 		 * @private
 		 */
 		_handleRouteMatched: function (oEvent) {
-			this.iEmployeeId = oEvent.getParameter("arguments").EmployeeID;
+			var oModel = this.getView().getModel();
+
+			var iEmployeeId = oEvent.getParameter("arguments").EmployeeID;
+			this.setEmployeeID(iEmployeeId);
+
 			var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
 			this.getView().byId("btnSaveEmployee").setEnabled(false);
 			// Get list 
 			var oList = this.byId("employeeAssignmentHistory");
 
-			this.employeeBindingPath = "/Z_C_EMPLOYEE('" + this.iEmployeeId + "')";
+			this.employeeBindingPath = "/Z_C_EMPLOYEE('" + this.getEmployeeID() + "')";
 
-			var sEmployeeProperty = this.getView().getModel().getProperty(this.employeeBindingPath);
+			var sEmployeeProperty = oModel.getProperty(this.employeeBindingPath);
 			if (sEmployeeProperty.FileName !== "") {
-				var sURL = "/sap/opu/odata/sap/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet(EmployeeID='" + sEmployeeProperty.EmployeeID +
+				var sURL = "/sap/opu/odata/sap/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet(EmployeeID='" + this.getEmployeeID() +
 					"',FileName='" +
 					sEmployeeProperty.FileName + "')/$value";
 				oEmpObjHdr.setIcon(sURL);
@@ -83,7 +61,7 @@ sap.ui.define([
 			}
 
 			// bind quota quart
-			this.employeeUtilizationBindingPath = "/EmployeeUtilizations('" + this.iEmployeeId + "')";
+			this.employeeUtilizationBindingPath = "/EmployeeUtilizations('" + this.getEmployeeID() + "')";
 			this.getView().byId("quotaChart").bindElement(this.employeeUtilizationBindingPath);
 			this.getView().byId("utilizationChart").bindElement(this.employeeUtilizationBindingPath);
 
@@ -102,7 +80,25 @@ sap.ui.define([
 			});
 
 			oList.attachUpdateFinished(this.onListUpdateFinished, this);
+			var mParametersFuntionImport = {
+				EmployeeID: this.getEmployeeID()
+			};
+			// Read Utilization Set for line chart
+			oModel.callFunction("/getUtilizationMonthSet", {
+				urlParameters: mParametersFuntionImport,
+				success: jQuery.proxy(this.onUtilizationMonthSetSuccess, this),
+				error: jQuery.proxy(this.onUtilizationMonthSetError, this)
+			});
+			console.log(oModel);
+			console.log(oModel.getProperty("/EmployeeUtilizations('35705')"));
+		},
 
+		setEmployeeID: function (sValue) {
+			this.getView().getModel("employee").setProperty("/EmployeeID", sValue);
+		},
+
+		getEmployeeID: function () {
+			return this.getView().getModel("employee").getProperty("/EmployeeID");
 		},
 
 		onListUpdateFinished: function (oEvent) {
@@ -161,7 +157,7 @@ sap.ui.define([
 			var oEmpObjHdr = this.getView().byId("employeeObjectHeader");
 
 			if (response) {
-				var sURL = "/sap/opu/odata/SAP/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet(EmployeeID='" + this.iEmployeeId +
+				var sURL = "/sap/opu/odata/SAP/Z_DXC_EMPLOYEE_MGMT_SRV/EmployeeImageSet(EmployeeID='" + this.getEmployeeID() +
 					"',FileName='" +
 					this.sFileName + "')/$value";
 				oEmpObjHdr.setIcon("");
@@ -225,7 +221,7 @@ sap.ui.define([
 
 				oFileUploader.addHeaderParameter(new FileUploaderParameter({
 					name: "slug",
-					value: this.iEmployeeId
+					value: this.getEmployeeID()
 				}));
 				// Upload file
 				oFileUploader.upload();
@@ -234,6 +230,41 @@ sap.ui.define([
 			}
 			// Set File Uploader enabled false
 			//oFileUploader.setEnabled(false);
+		},
+
+		onUtilizationMonthSetSuccess: function (oData, response) {
+			var oLineChart = this.getView().byId("employeeUtilizationLineChart");
+
+			if (response.statusCode === "200" && response.statusText === "OK") {
+				var oModel = new JSONModel({
+					MAUtilization: oData.results
+				});
+				// Sets the data to the chart
+				oLineChart.setModel(oModel);
+				// build sorter
+				var oSorter = new Sorter("Mnr", false);
+				// Clone points template for aggregation bindin
+				if(!this.oLineChartPointTemplate){
+					this.oLineChartPointTemplate = this.getView().byId("lineChartpointTemplate").clone();
+				}
+				oLineChart.bindPoints({ 
+					path: "/MAUtilization",
+					template: this.oLineChartPointTemplate, 
+					sorter: oSorter
+				});
+				// Set Labels (Right)
+				var oFirstProperty = oModel.getProperty("/MAUtilization/5");
+				oLineChart.setLeftTopLabel(oFirstProperty.Yaxis);
+				oLineChart.setLeftBottomLabel(oFirstProperty.Ltx);
+				// Set Labels (Left)
+				var oLastProperty = oModel.getProperty("/MAUtilization/0");
+				oLineChart.setRightTopLabel(oLastProperty.Yaxis);
+				oLineChart.setRightBottomLabel(oLastProperty.Ltx);
+			}
+		},
+
+		onUtilizationMonthSetError: function (oError) {
+			console.log(oError);
 		},
 
 		onNavBack: function () {
