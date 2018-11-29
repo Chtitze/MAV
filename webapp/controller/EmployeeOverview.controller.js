@@ -25,6 +25,7 @@ sap.ui.define([
 			this.getView().setModel(this._oModelEmployee, "employee");
 
 			this.getRouter().getRoute("EmployeeOverview").attachPatternMatched(this._handleRouteMatched, this);
+			this.getView().byId("fileUploaderEmployee").attachUploadComplete(this._onFileUploadComplete, this);
 		},
 
 		/**
@@ -226,8 +227,6 @@ sap.ui.define([
 				oFileUploader.destroyHeaderParameters();
 				oFileUploader.clear();
 			}
-			// Set File Uploader enabled false
-			//oFileUploader.setEnabled(false);
 		},
 
 		onUtilizationMonthSetSuccess: function (oData, response) {
@@ -259,6 +258,11 @@ sap.ui.define([
 				oLineChart.setRightTopLabel(oLastProperty.Yaxis);
 				oLineChart.setRightBottomLabel(oLastProperty.Ltx);
 			}
+		},
+		
+		_onFileUploadComplete: function(){
+			var oSaveButton = this.getView().byId("btnSaveEmployee");
+			oSaveButton.setEnabled(false);
 		},
 
 		onUtilizationMonthSetError: function (oError) {
