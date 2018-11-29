@@ -89,8 +89,6 @@ sap.ui.define([
 				success: jQuery.proxy(this.onUtilizationMonthSetSuccess, this),
 				error: jQuery.proxy(this.onUtilizationMonthSetError, this)
 			});
-			console.log(oModel);
-			console.log(oModel.getProperty("/EmployeeUtilizations('35705')"));
 		},
 
 		setEmployeeID: function (sValue) {
@@ -264,7 +262,7 @@ sap.ui.define([
 		},
 
 		onUtilizationMonthSetError: function (oError) {
-			console.log(oError);
+			// Implement error handling here
 		},
 
 		onNavBack: function () {
