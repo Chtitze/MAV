@@ -6,9 +6,10 @@
 		<VBox>
 			<PlanningCalendar id="planningCalendarEmployee" rows="{path: '/Z_C_EMPLOYEE'}" appointmentsVisualization="Filled"
 				rowHeaderClick="handleRowHeaderClick" class="sapUiSmallMargin sapUiResponsiveMargin sapUiNoContentPadding"
-				appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
+				appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false" viewKey="One Month">
 				<rows>
-					<PlanningCalendarRow title="{Firstname} {Lastname}" text="{Jobtitle1}" icon="{ path:'Employee_Image', formatter: '.formatterImage.convertimg' }"
+					<PlanningCalendarRow title="{Firstname} {Lastname}" text="{Jobtitle1}"
+						icon="{ path:'Employee_Image', formatter: '.formatterImage.convertimg' }"
 						appointments="{ path: 'to_Assignment', parameters:{expand : 'to_Project'}, templateShareable: 'true'}">
 						<appointments>
 							<unified:CalendarAppointment type="Type06" startDate="{path: 'assignstart', formatter:'.formatter.date' }"

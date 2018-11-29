@@ -1,6 +1,6 @@
 sap.ui.define([
 	"dxc/hr/employee/mngmt/controller/BaseController",
-	"dxc/hr/employee/mngmt/model/formatter",
+	"dxc/hr/employee/mngmt/model/formatter"
 ], function (BaseController, formatterImage) {
 	"use strict";
 
