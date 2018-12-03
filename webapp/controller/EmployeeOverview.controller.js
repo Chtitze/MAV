@@ -251,11 +251,11 @@ sap.ui.define([
 				});
 				// Set Labels (Right)
 				var oFirstProperty = oModel.getProperty("/MAUtilization/5");
-				oLineChart.setLeftTopLabel(oFirstProperty.Yaxis);
+				oLineChart.setLeftTopLabel(oFirstProperty.Yaxis + " %");
 				oLineChart.setLeftBottomLabel(oFirstProperty.Ltx);
 				// Set Labels (Left)
 				var oLastProperty = oModel.getProperty("/MAUtilization/0");
-				oLineChart.setRightTopLabel(oLastProperty.Yaxis);
+				oLineChart.setRightTopLabel(oLastProperty.Yaxis + " %");
 				oLineChart.setRightBottomLabel(oLastProperty.Ltx);
 			}
 		},

@@ -36,7 +36,7 @@
 									<!--points="{ path: '/', templateShareable: true }"-->
 									<chart:points>
 										<chart:LineMicroChartPoint id="lineChartpointTemplate" x="{ path:'Xaxis', type: 'sap.ui.model.odata.type.Decimal'}"
-										                           y="{path: 'Yaxis', type: 'sap.ui.model.odata.type.Decimal'}"/>
+										                           y="{ path: 'Yaxis', type: 'sap.ui.model.odata.type.Decimal' }"/>
 									</chart:points>
 								</chart:LineMicroChart>
 							</VBox>
@@ -52,10 +52,10 @@
 								<smartForm:customToolbar>
 									<Toolbar>
 										<ToolbarSpacer/>
-										<u:FileUploader enabled="true" id="fileUploaderEmployee" buttonOnly="true" buttonText="{i18n>employeeUploadImage}"
+										<u:FileUploader enabled="{= ${device>/system/phone} ? false : true }" id="fileUploaderEmployee" buttonOnly="true" buttonText="{i18n>employeeUploadImage}"
 											tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" fileType="JPG,jpg,PNG" sendXHR="true"
 											useMultipart="false" change="onChange"/>
-										<Button id="btnSaveEmployee" icon="sap-icon://save" press="onSaveEmployee"/>
+										<Button id="btnSaveEmployee" enabled="{= ${device>/system/phone} ? true : false }" icon="sap-icon://save" press="onSaveEmployee"/>
 									</Toolbar>
 								</smartForm:customToolbar>
 								<smartForm:Group>

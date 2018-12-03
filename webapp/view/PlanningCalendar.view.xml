@@ -13,7 +13,7 @@
 						appointments="{ path: 'to_Assignment', parameters:{expand : 'to_Project'}, templateShareable: 'true'}">
 						<appointments>
 							<unified:CalendarAppointment type="Type06" startDate="{path: 'assignstart', formatter:'.formatter.date' }"
-								endDate="{path: 'assignend', formatter:'.formatter.date' }" icon="" title="{to_Project/ProjectTitle}" text="{Info}" tentative="{Tentative}"></unified:CalendarAppointment>
+								endDate="{path: 'assignend', formatter:'.formatter.date' }" icon="" title="80%" text="{to_Project/ProjectTitle}" tentative="{Tentative}"></unified:CalendarAppointment>
 						</appointments>
 					</PlanningCalendarRow>
 				</rows>
